@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleepy+ – Sleep Timer & Alarm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a16;
+            --bg-section: #0e0e1a;
+            --bg-card: #16162a;
+            --text: #c8c8d8;
+            --text-heading: #e8e8f0;
+            --accent: #6a5aff;
+            --accent-orange: #f08030;
+            --accent-soft: rgba(106,90,255,0.12);
+            --divider: #1e1e38;
+            --radius: 14px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER / NAV ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10,10,22,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .header-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo svg {
+            height: 32px;
+            width: auto;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-center a {
+            color: #888898;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .nav-center a:hover, .nav-center a.active {
+            color: var(--text-heading);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--divider);
+            color: #666680;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-btn:hover { border-color: #444460; color: #999; }
+        .lang-btn.active {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 120px 24px 60px;
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 0%, rgba(106,90,255,0.08) 0%, transparent 60%);
+        }
+
+        .hero-logo {
+            margin-bottom: 20px;
+        }
+
+        .hero-logo svg {
+            height: 64px;
+            width: auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 5vw, 44px);
+            color: var(--text-heading);
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #8888a0;
+            max-width: 480px;
+            margin: 0 auto 32px;
+        }
+
+        .hero .tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .app-store-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(106,90,255,0.3);
+        }
+
+        .app-store-btn svg { height: 24px; }
+
+        /* ===== SCREENSHOT SLIDER ===== */
+        .slider-section {
+            padding: 40px 0 80px;
+            overflow: hidden;
+        }
+
+        .slider-track {
+            display: flex;
+            gap: 20px;
+            padding: 0 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            cursor: grab;
+        }
+
+        .slider-track::-webkit-scrollbar { display: none; }
+        .slider-track:active { cursor: grabbing; }
+
+        .slider-track img {
+            flex: 0 0 auto;
+            width: 260px;
+            height: auto;
+            border-radius: 20px;
+            scroll-snap-align: center;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .slider-track img:hover {
+            transform: scale(1.03);
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .slider-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #333350;
+            transition: all 0.3s;
+        }
+
+        .slider-dots span.active {
+            background: var(--accent);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* ===== CONTENT SECTIONS ===== */
+        .content-section {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px 80px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--text-heading);
+            margin-bottom: 32px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: var(--divider);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 16px;
+            border: 1px solid var(--divider);
+        }
+
+        .card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .card p { margin-bottom: 12px; }
+        .card p:last-child { margin-bottom: 0; }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 12px;
+        }
+
+        .card ul:last-child { margin-bottom: 0; }
+
+        .card ul li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        .card ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.5;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ===== CONTACT CARD ===== */
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .contact-email {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-top: 8px;
+            padding: 10px 24px;
+            border-radius: 8px;
+            background: var(--accent-soft);
+            transition: background 0.2s;
+        }
+
+        .contact-email:hover {
+            background: rgba(106,90,255,0.2);
+            text-decoration: none;
+        }
+
+        .faq-q {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 6px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 24px 24px 48px;
+            border-top: 1px solid var(--divider);
+            text-align: center;
+            font-size: 13px;
+            color: #444460;
+        }
+
+        footer a { color: #555570; }
+
+        /* ===== LANG TOGGLE ===== */
+        [data-lang="en"] { display: none; }
+        body.en [data-lang="de"] { display: none; }
+        body.en [data-lang="en"] { display: block; }
+
+        /* Mobile burger */
+        .burger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .burger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: #888;
+            margin: 4px 0;
+            transition: all 0.2s;
+        }
+
+        @media (max-width: 640px) {
+            .nav-center {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: rgba(10,10,22,0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 16px 24px;
+                border-bottom: 1px solid var(--divider);
+            }
+
+            .nav-center.open { display: flex; }
+
+            .nav-center a {
+                padding: 12px 0;
+                font-size: 15px;
+            }
+
+            .burger { display: block; }
+
+            .slider-track img { width: 220px; }
+
+            .hero h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="header-inner">
+        <a href="#home" class="nav-logo">
+            <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="44" font-family="'Playfair Display', serif" font-size="44" font-weight="700" fill="#6a5aff" letter-spacing="-2">sleepy</text>
+                <text x="155" y="28" font-family="'DM Sans', sans-serif" font-size="28" font-weight="700" fill="#f08030">+</text>
+                <path d="M28 50 Q60 58 92 50" stroke="#f08030" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            </svg>
+        </a>
+
+        <nav class="nav-center" id="navMenu">
+            <a href="#home" class="active" data-lang="de">Start</a>
+            <a href="#home" class="active" data-lang="en">Home</a>
+            <a href="#privacy" data-lang="de">Datenschutz</a>
+            <a href="#privacy" data-lang="en">Privacy</a>
+            <a href="#terms" data-lang="de">AGB</a>
+            <a href="#terms" data-lang="en">Terms</a>
+            <a href="#support">Support</a>
+        </nav>
+
+        <div class="nav-right">
+            <button class="lang-btn active" id="btnDe" onclick="setLang('de')">DE</button>
+            <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
+            <button class="burger" id="burger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+    <div class="hero-logo">
+        <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="44" font-family="'Playfair Display', serif" font-size="44" font-weight="700" fill="#6a5aff" letter-spacing="-2">sleepy</text>
+            <text x="155" y="28" font-family="'DM Sans', sans-serif" font-size="28" font-weight="700" fill="#f08030">+</text>
+            <path d="M28 50 Q60 58 92 50" stroke="#f08030" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <h1 data-lang="de">Einschlafen und Aufwachen — endlich einfach.</h1>
+    <h1 data-lang="en">Falling asleep and waking up — finally simple.</h1>
+
+    <p data-lang="de">Sleep Timer und Wecker in einer App. Ein Tap genügt.</p>
+    <p data-lang="en">Sleep timer and alarm in one app. One tap is all it takes.</p>
+
+    <div class="tagline" data-lang="de">Eine App. Ein Tap. Good Nap.</div>
+    <div class="tagline" data-lang="en">One App. One Tap. Good Nap.</div>
+
+    <a href="https://apps.apple.com/app/sleepyplus" class="app-store-btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <span data-lang="de">Im App Store laden</span>
+        <span data-lang="en">Download on the App Store</span>
+    </a>
+</section>
+
+<!-- ===== SCREENSHOT SLIDER ===== -->
+<section class="slider-section">
+    <div class="slider-track" id="sliderTrack">
+        <img src="img/Frame_9.jpg" alt="Sleepy+ Hauptansicht" draggable="false">
+        <img src="img/Frame_10.jpg" alt="Sleepy+ Features" draggable="false">
+        <img src="img/Frame_11.jpg" alt="Sleepy+ Timer & Alarm" draggable="false">
+        <img src="img/Frame_12.jpg" alt="Sleepy+ Widgets" draggable="false">
+    </div>
+    <div class="slider-dots" id="sliderDots">
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</section>
+
+<!-- ===== PRIVACY ===== -->
+<div class="section-divider"></div>
+<section class="content-section" id="privacy">
+    <!-- DE -->
+    <div data-lang="de">
+        <h2 class="section-title">Datenschutzerklärung</h2>
+
+        <div class="card">
+            <h3>1. Verantwortlicher</h3>
+            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin<br>E-Mail: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a></p>
+        </div>
+
+        <div class="card">
+            <h3>2. Erhebung und Verarbeitung personenbezogener Daten</h3>
+            <p>Diese App erhebt, verarbeitet oder speichert keine personenbezogenen Daten. Es werden keine Namen, E-Mail-Adressen oder sonstige Identifikationsdaten erhoben und es werden keine individuellen Nutzungsprofile erstellt.</p>
+            <p>Zur Verbesserung der App werden anonymisierte Nutzungsstatistiken über den datenschutzfreundlichen Analysedienst TelemetryDeck erhoben (siehe Abschnitt 3). Diese Daten sind vollständig anonymisiert und lassen keinen Rückschluss auf einzelne Personen zu.</p>
+            <p>Alle weiteren Funktionen der App laufen ausschließlich lokal auf dem Gerät des Nutzers.</p>
+        </div>
+
+        <div class="card">
+            <h3>3. Verwendung von TelemetryDeck</h3>
+            <p>Zur Analyse anonymisierter Nutzungsdaten verwenden wir TelemetryDeck (TelemetryDeck GmbH, Von-der-Tann-Str. 54, 86159 Augsburg, Deutschland).</p>
+            <p>TelemetryDeck erhebt ausschließlich anonymisierte Daten. Nutzer-Identifikatoren werden auf dem Gerät gesalzen und gehasht.</p>
+            <p><strong>Erfasst werden:</strong></p>
+            <ul>
+                <li>Anonymisierte Benutzerkennung (je App-Installation)</li>
+                <li>Vom Publisher definierte Aktionen (z.B. „App gestartet")</li>
+                <li>Abgerundeter Zeitstempel (volle Stunde)</li>
+                <li>Gerätemetadaten (Systemversion, App-Version, Gerätetyp)</li>
+            </ul>
+            <p><strong>Nicht gespeichert:</strong></p>
+            <ul>
+                <li>Keine IP-Adressen</li>
+                <li>Keine Cookies oder Tracking-Technologien</li>
+                <li>Keine dauerhaften Identifikatoren</li>
+            </ul>
+            <p>Da keine personenbezogenen Daten verarbeitet werden, ist weder eine Einwilligung noch ein Opt-out erforderlich. Server ausschließlich in der EU. Mehr: <a href="https://telemetrydeck.com/privacy" target="_blank" rel="noopener">telemetrydeck.com/privacy</a></p>
+        </div>
+
+        <div class="card">
+            <h3>4. Weitergabe von Daten</h3>
+            <p>Personenbezogene Daten werden nicht an Dritte weitergegeben. Anonymisierte Daten werden an TelemetryDeck GmbH übermittelt. Da diese vollständig anonymisiert sind, handelt es sich nicht um Auftragsverarbeitung (Art. 28 DSGVO).</p>
+        </div>
+
+        <div class="card">
+            <h3>5. App Store / Apple</h3>
+            <p>Die App wird über den Apple App Store bereitgestellt. Bei der Nutzung des App Stores gelten Apples Datenschutzbestimmungen.</p>
+        </div>
+
+        <div class="card">
+            <h3>6. Rechte der betroffenen Personen</h3>
+            <p>Da keine personenbezogenen Daten verarbeitet werden, bestehen in der Regel keine Betroffenenrechte. Grundsätzlich stehen Ihnen zu:</p>
+            <ul>
+                <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+                <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+                <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+                <li>Recht auf Einschränkung (Art. 18 DSGVO)</li>
+                <li>Recht auf Widerspruch (Art. 21 DSGVO)</li>
+                <li>Recht auf Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>7. Kontakt</h3>
+            <p>Bei Fragen: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a></p>
+            <p>Es gilt deutsches Recht und die EU-DSGVO.</p>
+        </div>
+
+        <h2 class="section-title" style="margin-top:40px;">Impressum</h2>
+        <div class="card">
+            <p>Angaben gemäß § 5 DDG:</p>
+            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin</p>
+            <p>E-Mail: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a></p>
+        </div>
+    </div>
+
+    <!-- EN -->
+    <div data-lang="en">
+        <h2 class="section-title">Privacy Policy</h2>
+
+        <div class="card">
+            <h3>1. Data Controller</h3>
+            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin, Germany<br>Email: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a></p>
+        </div>
+
+        <div class="card">
+            <h3>2. Collection and Processing of Personal Data</h3>
+            <p>This app does not collect, process, or store any personal data. No names, email addresses, or other identifying information is collected, and no individual user profiles are created.</p>
+            <p>To improve the app, anonymized usage statistics are collected through TelemetryDeck (see section 3). This data is fully anonymized and cannot be traced to any individual.</p>
+            <p>All other functions run exclusively on the user's device.</p>
+        </div>
+
+        <div class="card">
+            <h3>3. Use of TelemetryDeck</h3>
+            <p>We use TelemetryDeck (TelemetryDeck GmbH, Von-der-Tann-Str. 54, 86159 Augsburg, Germany) for anonymized usage analytics.</p>
+            <p><strong>Data collected:</strong></p>
+            <ul>
+                <li>Anonymized, non-traceable user identifier (per installation)</li>
+                <li>Publisher-defined events (e.g. "app launched")</li>
+                <li>Rounded timestamp (nearest hour)</li>
+                <li>Device metadata (OS version, app version, device type)</li>
+            </ul>
+            <p><strong>Not stored:</strong></p>
+            <ul>
+                <li>No IP addresses</li>
+                <li>No cookies or tracking technologies</li>
+                <li>No persistent identifiers</li>
+            </ul>
+            <p>Since no personal data is processed, neither consent nor opt-out is required. Servers exclusively in the EU. More: <a href="https://telemetrydeck.com/privacy" target="_blank" rel="noopener">telemetrydeck.com/privacy</a></p>
+        </div>
+
+        <div class="card">
+            <h3>4. Data Sharing</h3>
+            <p>Personal data is not shared with third parties. Anonymized data is transmitted to TelemetryDeck GmbH. As this data is fully anonymized, this does not constitute data processing under Art. 28 GDPR.</p>
+        </div>
+
+        <div class="card">
+            <h3>5. App Store / Apple</h3>
+            <p>The app is distributed through the Apple App Store. Apple's privacy policy applies when using the App Store.</p>
+        </div>
+
+        <div class="card">
+            <h3>6. Rights of Data Subjects</h3>
+            <p>Since no personal data is processed, data subject rights under the GDPR generally do not apply. You are entitled to:</p>
+            <ul>
+                <li>Right of access (Art. 15 GDPR)</li>
+                <li>Right to rectification (Art. 16 GDPR)</li>
+                <li>Right to erasure (Art. 17 GDPR)</li>
+                <li>Right to restriction (Art. 18 GDPR)</li>
+                <li>Right to object (Art. 21 GDPR)</li>
+                <li>Right to lodge a complaint (Art. 77 GDPR)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>7. Contact</h3>
+            <p>Questions: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a></p>
+            <p>German law and EU GDPR apply.</p>
+        </div>
+
+        <h2 class="section-title" style="margin-top:40px;">Legal Notice</h2>
+        <div class="card">
+            <p>Information pursuant to § 5 DDG (German Digital Services Act):</p>
+            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin, Germany</p>
+            <p>Email: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a></p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TERMS ===== -->
+<div class="section-divider"></div>
+<section class="content-section" id="terms">
+    <!-- DE -->
+    <div data-lang="de">
+        <h2 class="section-title">Allgemeine Geschäftsbedingungen</h2>
+
+        <div class="card">
+            <h3>1. Geltungsbereich</h3>
+            <p>Diese AGB gelten für die iOS-App „Sleepy+", die als Sleep-Timer und Wecker dient.</p>
+        </div>
+
+        <div class="card">
+            <h3>2. Leistungsbeschreibung</h3>
+            <p>Die App stellt einen Timer bereit, der nach Ablauf die Medienwiedergabe beendet. Die App ist keine sicherheitskritische Funktion.</p>
+        </div>
+
+        <div class="card">
+            <h3>3. Kein medizinischer Zweck</h3>
+            <p>Die App ist kein medizinisches Produkt. Es wird keine Wirkung auf Schlafqualität oder Gesundheit garantiert.</p>
+        </div>
+
+        <div class="card">
+            <h3>4. Haftung</h3>
+            <p>Nutzung auf eigene Verantwortung. Keine Haftung außer bei Vorsatz oder grober Fahrlässigkeit. Keine Haftung für:</p>
+            <ul>
+                <li>Fehlerfreies Funktionieren des Timers</li>
+                <li>Rechtzeitiges Beenden der Wiedergabe</li>
+                <li>Folgeschäden durch nicht beendete Wiedergabe</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>5. In-App-Käufe und Abonnements</h3>
+            <p><strong>Kaufoptionen:</strong></p>
+            <ul>
+                <li>Probeabo: 7 Tage kostenlos, danach automatische Verlängerung</li>
+                <li>Jahresabo: 6,99 € pro Jahr</li>
+                <li>Einmalkauf (Lifetime): 14,99 €</li>
+            </ul>
+            <p><strong>Abonnements:</strong></p>
+            <ul>
+                <li>Automatische Verlängerung, wenn nicht 24h vor Ablauf gekündigt</li>
+                <li>Zahlung über Apple-ID</li>
+                <li>Kündigung: iOS-Einstellungen → Abonnements</li>
+                <li>Premium-Zugang bleibt bis Laufzeitende</li>
+            </ul>
+            <p><strong>Lifetime:</strong> Dauerhafter Zugang, bezogen auf die Lebensdauer der App. Bei Einstellung mind. 6 Monate Vorankündigung. Rückerstattungen über Apple.</p>
+        </div>
+
+        <div class="card">
+            <h3>6. Datenschutz</h3>
+            <p>Siehe <a href="#privacy">Datenschutzerklärung</a>. Kein Tracking personenbezogener Daten.</p>
+        </div>
+
+        <div class="card">
+            <h3>7. Änderungen</h3>
+            <p>Der Anbieter kann die App jederzeit ändern oder einstellen.</p>
+        </div>
+
+        <div class="card">
+            <h3>8. Schlussbestimmungen</h3>
+            <p>Es gilt deutsches Recht. Salvatorische Klausel.</p>
+        </div>
+    </div>
+
+    <!-- EN -->
+    <div data-lang="en">
+        <h2 class="section-title">Terms of Use</h2>
+
+        <div class="card">
+            <h3>1. Scope</h3>
+            <p>These Terms apply to the iOS app "Sleepy+", a sleep timer and alarm clock.</p>
+        </div>
+
+        <div class="card">
+            <h3>2. Description of Service</h3>
+            <p>The app provides a timer that stops media playback. It is not a safety-critical function.</p>
+        </div>
+
+        <div class="card">
+            <h3>3. No Medical Purpose</h3>
+            <p>The app is not a medical device. No effect on sleep quality or health is guaranteed.</p>
+        </div>
+
+        <div class="card">
+            <h3>4. Liability</h3>
+            <p>Use at your own risk. No liability except for intent or gross negligence. No liability for:</p>
+            <ul>
+                <li>Error-free operation of the timer</li>
+                <li>Timely stopping of playback</li>
+                <li>Consequential damages from playback not stopping</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>5. In-App Purchases and Subscriptions</h3>
+            <p><strong>Options:</strong></p>
+            <ul>
+                <li>Free trial: 7 days free, then automatic renewal</li>
+                <li>Annual: €6.99/year</li>
+                <li>Lifetime: €14.99 one-time</li>
+            </ul>
+            <p><strong>Subscriptions:</strong></p>
+            <ul>
+                <li>Auto-renew unless cancelled 24h before expiry</li>
+                <li>Payment via Apple ID</li>
+                <li>Cancel: iOS Settings → Subscriptions</li>
+                <li>Premium access until end of paid period</li>
+            </ul>
+            <p><strong>Lifetime:</strong> Permanent access for the life of the app. 6 months notice if discontinued. Refunds via Apple.</p>
+        </div>
+
+        <div class="card">
+            <h3>6. Data Protection</h3>
+            <p>See <a href="#privacy">Privacy Policy</a>. No personal data tracking.</p>
+        </div>
+
+        <div class="card">
+            <h3>7. Changes</h3>
+            <p>The provider may modify or discontinue the app at any time.</p>
+        </div>
+
+        <div class="card">
+            <h3>8. Final Provisions</h3>
+            <p>German law applies. Severability clause.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SUPPORT ===== -->
+<div class="section-divider"></div>
+<section class="content-section" id="support">
+    <!-- DE -->
+    <div data-lang="de">
+        <h2 class="section-title">Support</h2>
+
+        <div class="contact-card">
+            <p>Fragen, Probleme oder Feedback?</p>
+            <a href="mailto:merlinschusterdesign@gmail.com" class="contact-email">merlinschusterdesign@gmail.com</a>
+        </div>
+
+        <h2 class="section-title">Häufige Fragen</h2>
+
+        <div class="card">
+            <p class="faq-q">Wie funktioniert Sleepy+?</p>
+            <p>Starte deine Musik, dein Hörbuch oder Podcast. Öffne Sleepy+, stelle Sleep Timer und Wecker ein und tippe auf den Sleep-Button. Deine Wiedergabe stoppt nach der eingestellten Zeit, der Wecker weckt dich am nächsten Morgen.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">Welche Audio-Apps werden unterstützt?</p>
+            <p>Jede App, die Audio auf deinem iPhone abspielt – Spotify, Apple Music, Podcasts, Audible, YouTube und mehr.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">Wie kann ich das Abo kündigen?</p>
+            <p>iOS-Einstellungen → dein Name → Abonnements → Sleepy+ → Abo kündigen. Premium bleibt bis zum Ende der bezahlten Laufzeit.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">Kann ich die App kostenlos testen?</p>
+            <p>Ja! 7 Tage kostenlos mit allen Premium-Funktionen. Das Abo verlängert sich danach automatisch, kann aber jederzeit vorher gekündigt werden.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">Rückerstattung?</p>
+            <p>Über Apple: <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a></p>
+        </div>
+    </div>
+
+    <!-- EN -->
+    <div data-lang="en">
+        <h2 class="section-title">Support</h2>
+
+        <div class="contact-card">
+            <p>Questions, issues, or feedback?</p>
+            <a href="mailto:merlinschusterdesign@gmail.com" class="contact-email">merlinschusterdesign@gmail.com</a>
+        </div>
+
+        <h2 class="section-title">FAQ</h2>
+
+        <div class="card">
+            <p class="faq-q">How does Sleepy+ work?</p>
+            <p>Start your music, audiobook, or podcast. Open Sleepy+, set your sleep timer and alarm, and tap the sleep button. Your audio stops after the set time, and the alarm wakes you up the next morning.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">Which audio apps are supported?</p>
+            <p>Any app that plays audio on your iPhone – Spotify, Apple Music, Podcasts, Audible, YouTube, and more.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">How do I cancel my subscription?</p>
+            <p>iOS Settings → your name → Subscriptions → Sleepy+ → Cancel. Premium access remains until the end of the paid period.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">Can I try it for free?</p>
+            <p>Yes! 7-day free trial with all premium features. The subscription renews automatically, but you can cancel anytime.</p>
+        </div>
+
+        <div class="card">
+            <p class="faq-q">How do I get a refund?</p>
+            <p>Through Apple: <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a></p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <p>© 2026 Merlin Schuster. Sleepy+</p>
+</footer>
+
+<script>
+// Language toggle
+function setLang(lang) {
+    if (lang === 'en') {
+        document.body.classList.add('en');
+    } else {
+        document.body.classList.remove('en');
+    }
+    document.getElementById('btnDe').classList.toggle('active', lang === 'de');
+    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+    localStorage.setItem('lang', lang);
+}
+
+// Restore lang
+const saved = localStorage.getItem('lang');
+if (saved) setLang(saved);
+
+// Mobile menu
+function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('open');
+}
+
+// Close menu on nav click
+document.querySelectorAll('.nav-center a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.getElementById('navMenu').classList.remove('open');
+    });
+});
+
+// Slider dots
+const track = document.getElementById('sliderTrack');
+const dots = document.querySelectorAll('#sliderDots span');
+
+track.addEventListener('scroll', () => {
+    const scrollLeft = track.scrollLeft;
+    const itemWidth = track.querySelector('img').offsetWidth + 20;
+    const idx = Math.round(scrollLeft / itemWidth);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+});
+
+// Center slider on load
+window.addEventListener('load', () => {
+    const container = track.parentElement;
+    const firstImg = track.querySelector('img');
+    if (firstImg) {
+        const pad = (container.offsetWidth - firstImg.offsetWidth) / 2;
+        track.style.paddingLeft = pad + 'px';
+        track.style.paddingRight = pad + 'px';
+    }
+});
+</script>
+
+</body>
+</html>
