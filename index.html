@@ -181,32 +181,22 @@
 
         .app-store-btn svg { height: 24px; }
 
-        /* ===== SCREENSHOT SLIDER ===== */
+        /* ===== SCREENSHOTS ===== */
         .slider-section {
-            padding: 40px 0 80px;
-            overflow: hidden;
+            padding: 40px clamp(24px, 5vw, 80px) 80px;
         }
 
         .slider-track {
             display: flex;
-            gap: 20px;
-            padding: 0 24px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            cursor: grab;
+            gap: clamp(6px, 1.5vw, 24px);
+            align-items: flex-start;
         }
 
-        .slider-track::-webkit-scrollbar { display: none; }
-        .slider-track:active { cursor: grabbing; }
-
         .slider-track img {
-            flex: 0 0 auto;
-            width: 260px;
+            flex: 1 1 0;
+            min-width: 0;
             height: auto;
             border-radius: 20px;
-            scroll-snap-align: center;
             box-shadow: 0 12px 40px rgba(0,0,0,0.5);
             transition: transform 0.3s;
             user-select: none;
@@ -217,25 +207,12 @@
             transform: scale(1.03);
         }
 
-        .slider-dots {
+        .slider-dots { display: none; }
+
+        .screenshots-btn-row {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-top: 24px;
-        }
-
-        .slider-dots span {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #333350;
-            transition: all 0.3s;
-        }
-
-        .slider-dots span.active {
-            background: var(--accent);
-            width: 24px;
-            border-radius: 4px;
+            margin-top: 32px;
         }
 
         /* ===== CONTENT SECTIONS ===== */
@@ -399,7 +376,8 @@
 
             .burger { display: block; }
 
-            .slider-track img { width: 220px; }
+            .slider-section { padding: 40px 24px 60px; }
+            .slider-track { gap: 24px; }
 
             .hero h1 { font-size: 28px; }
         }
@@ -415,8 +393,8 @@
         </a>
 
         <nav class="nav-center" id="navMenu">
-            <a href="#home" class="active" data-lang="de">Start</a>
-            <a href="#home" class="active" data-lang="en">Home</a>
+            <a href="#home" class="active" data-lang="de">Sleepy+</a>
+            <a href="#home" class="active" data-lang="en">Sleepy+</a>
             <a href="#privacy" data-lang="de">Datenschutz</a>
             <a href="#privacy" data-lang="en">Privacy</a>
             <a href="#terms" data-lang="de">AGB</a>
@@ -436,16 +414,6 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero" id="home">
-    <div class="hero-logo-row">
-        <div class="hero-logo">
-            <img src="img/Sleepy+_Logo_transparenterBG_V1.png" alt="Sleepy+ Logo">
-        </div>
-        <a href="https://apps.apple.com/app/sleepyplus" class="app-store-btn" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            <span data-lang="de">Im App Store laden</span>
-            <span data-lang="en">Download on the App Store</span>
-        </a>
-    </div>
 
 </section>
 
@@ -462,6 +430,13 @@
         <span></span>
         <span></span>
         <span></span>
+    </div>
+    <div class="screenshots-btn-row">
+        <a href="https://apps.apple.com/app/sleepyplus" class="app-store-btn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span data-lang="de">Im App Store laden</span>
+            <span data-lang="en">Download on the App Store</span>
+        </a>
     </div>
 </section>
 
@@ -856,27 +831,12 @@ document.querySelectorAll('.nav-center a').forEach(a => {
     });
 });
 
-// Slider dots
-const track = document.getElementById('sliderTrack');
-const dots = document.querySelectorAll('#sliderDots span');
 
-track.addEventListener('scroll', () => {
-    const scrollLeft = track.scrollLeft;
-    const itemWidth = track.querySelector('img').offsetWidth + 20;
-    const idx = Math.round(scrollLeft / itemWidth);
-    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-});
 
-// Center slider on load
-window.addEventListener('load', () => {
-    const container = track.parentElement;
-    const firstImg = track.querySelector('img');
-    if (firstImg) {
-        const pad = (container.offsetWidth - firstImg.offsetWidth) / 2;
-        track.style.paddingLeft = pad + 'px';
-        track.style.paddingRight = pad + 'px';
-    }
-});
+// Scroll to top on page load if no hash is present
+if (!window.location.hash) {
+    window.scrollTo(0, 0);
+}
 </script>
 
 </body>
