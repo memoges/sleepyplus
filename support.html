@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleepy+ – Support</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0e0e1a;
+            --bg-card: #16162a;
+            --text: #c8c8d8;
+            --text-heading: #e8e8f0;
+            --accent: #6e6eff;
+            --accent-soft: #4a4a9020;
+            --divider: #2a2a44;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: #666680;
+            margin-bottom: 48px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+        }
+
+        .lang-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .lang-nav a {
+            color: #666680;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--divider);
+            transition: all 0.2s;
+        }
+
+        .lang-nav a:hover, .lang-nav a.active {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--text-heading);
+            margin: 40px 0 16px;
+            letter-spacing: -0.3px;
+        }
+
+        h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin: 28px 0 10px;
+        }
+
+        p { margin-bottom: 14px; }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .section-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--divider);
+        }
+
+        .section-card h3:first-child { margin-top: 0; }
+
+        .contact-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            margin-bottom: 32px;
+            border: 1px solid var(--accent);
+            text-align: center;
+        }
+
+        .contact-card .email-link {
+            display: inline-block;
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-top: 8px;
+            padding: 10px 24px;
+            border-radius: 8px;
+            background: var(--accent-soft);
+            transition: all 0.2s;
+        }
+
+        .contact-card .email-link:hover {
+            background: #4a4a9040;
+            text-decoration: none;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--divider);
+            margin: 56px 0;
+        }
+
+        .lang-label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--divider);
+            font-size: 13px;
+            color: #555568;
+            text-align: center;
+        }
+
+        .footer a { color: #666680; }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 32px 18px 60px; }
+            h2 { font-size: 20px; }
+            .logo { font-size: 24px; }
+            .contact-card { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Sleepy<span>+</span></div>
+        <div class="page-subtitle">Support &amp; FAQ</div>
+
+        <nav class="lang-nav">
+            <a href="#deutsch" class="active">Deutsch</a>
+            <a href="#english">English</a>
+        </nav>
+
+        <!-- ==================== DEUTSCH ==================== -->
+        <div id="deutsch">
+            <span class="lang-label">Deutsch</span>
+
+            <h2>Kontakt</h2>
+            <div class="contact-card">
+                <p>Du hast eine Frage, ein Problem oder Feedback?<br>Schreib mir gerne eine E-Mail:</p>
+                <a href="mailto:merlinschusterdesign@gmail.com" class="email-link">merlinschusterdesign@gmail.com</a>
+            </div>
+
+            <h2>Häufige Fragen</h2>
+
+            <div class="section-card">
+                <p class="faq-question">Wie funktioniert Sleepy+?</p>
+                <p>Starte deine Musik, dein Hörbuch oder deinen Podcast in einer beliebigen Audio-App. Öffne Sleepy+, stelle Sleep Timer und Wecker ein und tippe einmal auf den Sleep-Button. Deine Wiedergabe stoppt nach der eingestellten Zeit, der Wecker weckt dich am nächsten Morgen.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">Welche Audio-Apps werden unterstützt?</p>
+                <p>Sleepy+ funktioniert mit jeder App, die Audio auf deinem iPhone abspielt – Spotify, Apple Music, Podcasts, Audible, YouTube und viele mehr.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">Wie kann ich das Abo kündigen?</p>
+                <p>Öffne die iOS-Einstellungen → tippe auf deinen Namen → Abonnements → Sleepy+ → Abo kündigen. Der Premium-Zugang bleibt bis zum Ende der bezahlten Laufzeit bestehen.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">Kann ich die App kostenlos testen?</p>
+                <p>Ja! Sleepy+ bietet eine kostenlose 7-Tage-Testphase. Du kannst in dieser Zeit alle Premium-Funktionen nutzen. Das Abo verlängert sich danach automatisch – du kannst es aber jederzeit vorher kündigen.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">Wie bekomme ich eine Rückerstattung?</p>
+                <p>Rückerstattungen werden über Apple abgewickelt. Besuche <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> und melde das entsprechende Abo oder den Kauf.</p>
+            </div>
+        </div>
+
+        <!-- ==================== DIVIDER ==================== -->
+        <div class="divider"></div>
+
+        <!-- ==================== ENGLISH ==================== -->
+        <div id="english">
+            <span class="lang-label">English</span>
+
+            <h2>Contact</h2>
+            <div class="contact-card">
+                <p>Have a question, issue, or feedback?<br>Send me an email:</p>
+                <a href="mailto:merlinschusterdesign@gmail.com" class="email-link">merlinschusterdesign@gmail.com</a>
+            </div>
+
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="section-card">
+                <p class="faq-question">How does Sleepy+ work?</p>
+                <p>Start your music, audiobook, or podcast in any audio app. Open Sleepy+, set your sleep timer and alarm, and tap the sleep button once. Your audio stops after the set time, and the alarm wakes you up the next morning.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">Which audio apps are supported?</p>
+                <p>Sleepy+ works with any app that plays audio on your iPhone – Spotify, Apple Music, Podcasts, Audible, YouTube, and many more.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">How do I cancel my subscription?</p>
+                <p>Open iOS Settings → tap your name → Subscriptions → Sleepy+ → Cancel Subscription. Your premium access remains active until the end of the paid period.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">Can I try the app for free?</p>
+                <p>Yes! Sleepy+ offers a free 7-day trial. You can use all premium features during this time. The subscription renews automatically after the trial – but you can cancel anytime before.</p>
+            </div>
+
+            <div class="section-card">
+                <p class="faq-question">How do I get a refund?</p>
+                <p>Refunds are handled by Apple. Visit <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> and report the relevant subscription or purchase.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="nav-links">
+                <a href="privacy.html">Datenschutz</a>
+                <a href="terms.html">AGB</a>
+                <a href="support.html">Support</a>
+            </div>
+            <p>© 2026 Merlin Schuster. Sleepy+</p>
+        </div>
+    </div>
+</body>
+</html>
