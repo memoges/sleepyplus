@@ -343,6 +343,10 @@
         [data-lang="en"] { display: none; }
         body.en [data-lang="de"] { display: none; }
         body.en [data-lang="en"] { display: block; }
+        /* Inline spans (e.g. in footer) should stay inline when active */
+        body.en span[data-lang="en"],
+        span[data-lang="de"] { display: inline; }
+        body.en span[data-lang="de"] { display: none; }
 
         /* Mobile burger */
         .burger {
@@ -402,14 +406,15 @@
         </a>
 
         <nav class="nav-center" id="navMenu">
-            <a href="#home" class="active" data-lang="de">Sleepy+</a>
-            <a href="#home" class="active" data-lang="en">Sleepy+</a>
+            <a href="#home" data-lang="de">Sleepy+</a>
+            <a href="#home" data-lang="en">Sleepy+</a>
             <a href="#privacy" data-lang="de">Datenschutz</a>
             <a href="#privacy" data-lang="en">Privacy</a>
             <a href="#terms" data-lang="de">AGB</a>
             <a href="#terms" data-lang="en">Terms</a>
             <a href="#support">Support</a>
-            <a href="#impressum">Impressum</a>
+            <a href="#impressum" data-lang="de">Impressum</a>
+            <a href="#impressum" data-lang="en">Imprint</a>
         </nav>
 
         <div class="nav-right">
@@ -522,13 +527,6 @@
             <p>Es gilt deutsches Recht und die EU-DSGVO.</p>
         </div>
 
-        <h2 class="section-title" style="margin-top:40px;" id="impressum">Impressum</h2>
-        <div class="card">
-            <p>Angaben gemäß § 5 DDG:</p>
-            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin</p>
-            <p>E-Mail: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a><br>Tel.: <a href="tel:+4917662975853">+49 176 62975853</a></p>
-            <p>Der Anbieter ist weder bereit noch verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).</p>
-        </div>
     </div>
 
     <!-- EN -->
@@ -599,13 +597,6 @@
             <p>German law and EU GDPR apply.</p>
         </div>
 
-        <h2 class="section-title" style="margin-top:40px;">Legal Notice</h2>
-        <div class="card">
-            <p>Information pursuant to § 5 DDG (German Digital Services Act):</p>
-            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin, Germany</p>
-            <p>Email: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a><br>Phone: <a href="tel:+4917662975853">+49 176 62975853</a></p>
-            <p>The provider is neither obligated nor willing to participate in dispute resolution proceedings before a consumer arbitration board (§ 36 VSBG).</p>
-        </div>
     </div>
 </section>
 
@@ -833,14 +824,40 @@
     </div>
 </section>
 
+<!-- ===== IMPRESSUM ===== -->
+<div class="section-divider"></div>
+<section class="content-section" id="impressum">
+    <!-- DE -->
+    <div data-lang="de">
+        <h2 class="section-title">Impressum</h2>
+        <div class="card">
+            <p>Angaben gemäß § 5 DDG:</p>
+            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin</p>
+            <p>E-Mail: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a><br>Tel.: <a href="tel:+4917662975853">+49 176 62975853</a></p>
+            <p>Der Anbieter ist weder bereit noch verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).</p>
+        </div>
+    </div>
+
+    <!-- EN -->
+    <div data-lang="en">
+        <h2 class="section-title">Imprint</h2>
+        <div class="card">
+            <p>Information pursuant to § 5 DDG (German Digital Services Act):</p>
+            <p>Merlin Schuster c/o GAM<br>Pappelallee 64<br>10437 Berlin, Germany</p>
+            <p>Email: <a href="mailto:merlinschusterdesign@gmail.com">merlinschusterdesign@gmail.com</a><br>Phone: <a href="tel:+4917662975853">+49 176 62975853</a></p>
+            <p>The provider is neither obligated nor willing to participate in dispute resolution proceedings before a consumer arbitration board (§ 36 VSBG).</p>
+        </div>
+    </div>
+</section>
+
 <!-- ===== FOOTER ===== -->
 <footer>
     <p style="margin-bottom:10px;">
-        <a href="#impressum">Impressum</a>
+        <a href="#impressum"><span data-lang="de">Impressum</span><span data-lang="en">Imprint</span></a>
         &ensp;·&ensp;
-        <a href="#privacy">Datenschutz</a>
+        <a href="#privacy"><span data-lang="de">Datenschutz</span><span data-lang="en">Privacy</span></a>
         &ensp;·&ensp;
-        <a href="#terms">AGB</a>
+        <a href="#terms"><span data-lang="de">AGB</span><span data-lang="en">Terms</span></a>
     </p>
     <p>© 2026 Merlin Schuster. Sleepy+</p>
 </footer>
@@ -871,10 +888,42 @@ function toggleMenu() {
 document.querySelectorAll('.nav-center a').forEach(a => {
     a.addEventListener('click', () => {
         document.getElementById('navMenu').classList.remove('open');
+        const href = a.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            setActiveNav(href.slice(1));
+        }
     });
 });
 
+// Scroll-spy: highlight active nav link based on visible section
+function setActiveNav(sectionId) {
+    document.querySelectorAll('.nav-center a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + sectionId);
+    });
+}
 
+const spySections = ['home', 'privacy', 'terms', 'support', 'impressum']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+let currentSection = 'home';
+setActiveNav(currentSection);
+
+const spyObserver = new IntersectionObserver((entries) => {
+    // Pick the entry closest to the top of the viewport that is intersecting
+    const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (visible.length > 0) {
+        currentSection = visible[0].target.id;
+        setActiveNav(currentSection);
+    }
+}, {
+    rootMargin: '-30% 0px -60% 0px',
+    threshold: 0
+});
+
+spySections.forEach(s => spyObserver.observe(s));
 
 // Scroll to top on page load if no hash is present
 if (!window.location.hash) {
